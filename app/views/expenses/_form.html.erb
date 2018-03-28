@@ -30,7 +30,11 @@
     <%= form.label :purchaser %>
     <%= form.select :purchaser_id, options_for_select(@people.map { |person| [person.name, person.id] }, @purchaser), id: :purchaser_id %>
   </div>
-  
+
+  <!--< % = form.collection_check_boxes(:people, @people.all, :id, :name, :include_hidden => false) % > -->
+  <%= form.collection_check_boxes(:person_ids, @people.all, :id, :name, :include_hidden => false) %>
+
+
   <div class="actions">
     <%= form.submit %>
   </div>

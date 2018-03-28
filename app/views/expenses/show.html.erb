@@ -20,5 +20,16 @@
   <%= @purchaser.name %>
 </p>
 
+<p>
+<strong>Expenses Split Amongst:</strong>
+  <% if @expense.people.length > 0 %>
+    <% @expense.people.each do |participant| %>
+      <br/>- <%= participant.name %>
+    <% end %>
+  <% else %>
+    No participants have been added to share the expense
+  <% end %>
+</p>
+
 <%= link_to 'Edit', edit_event_expense_path(@event, @expense) %> |
 <%= link_to 'Back', event_path(@event) %>

@@ -26,6 +26,11 @@
     <%= form.text_field :amount, id: :expense_amount %>
   </div>
 
+  <div class="field">
+    <%= form.label :purchaser %>
+    <%= form.select :purchaser_id, options_for_select(@people.map { |person| [person.name, person.id] }, @purchaser), id: :purchaser_id %>
+  </div>
+  
   <div class="actions">
     <%= form.submit %>
   </div>

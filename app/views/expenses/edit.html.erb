@@ -2,5 +2,5 @@
 
 <%= render 'form', expense: @expense %>
 
-<%= link_to 'Show', @expense %> |
-<%= link_to 'Back', expenses_path %>
+<%= link_to 'Show', event_expense_path(@event, @expense) %> |
+<%= link_to 'Back', event_path(@event) %>

@@ -1,6 +1,6 @@
 class PeopleController < ApplicationController
   before_action :set_person, only: [:show, :edit, :update, :destroy]
-  before_action :set_event,  only: [:index, :show, :new, :edit, :update, :destroy]
+  before_action :set_event,  only: [:index, :show, :new, :edit, :create, :update, :destroy]
 
   # GET /people
   # GET /people.json

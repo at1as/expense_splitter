@@ -11,30 +11,34 @@ class ExpensesController < ApplicationController
   # GET /expenses/1
   # GET /expenses/1.json
   def show
+    @purchaser = Person.find(@expense.purchaser_id)
   end
 
   # GET /expenses/new
   def new
-    @people  = @event.people
-    @expense = Expense.new
+    @people    = @event.people
+    @expense   = Expense.new
+    @purchaser = @expense.purchaser_id
   end
 
   # GET /expenses/1/edit
   def edit
+    @purchaser = @expense.purchaser_id
+    @people    = @event.people
   end
 
   # POST /expenses
   # POST /expenses.json
   def create
-    @expense = Expense.new(expense_params)
+    @expense = Expense.new(expense_params.tap { |p| p["event_id"] = @event.id })
 
     respond_to do |format|
       if @expense.save
-        format.html { redirect_to @expense, notice: 'Expense was successfully created.' }
+        format.html { redirect_to @event, notice: 'Expense was successfully created.' }
         format.json { render :show, status: :created, location: @expense }
       else
         format.html { render :new }
-        format.json { render json: @expense.errors, status: :unprocessable_entity }
+        format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -44,11 +48,11 @@ class ExpensesController < ApplicationController
   def update
     respond_to do |format|
       if @expense.update(expense_params)
-        format.html { redirect_to @expense, notice: 'Expense was successfully updated.' }
+        format.html { redirect_to @event, notice: 'Expense was successfully updated.' }
         format.json { render :show, status: :ok, location: @expense }
       else
         format.html { render :edit }
-        format.json { render json: @expense.errors, status: :unprocessable_entity }
+        format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -75,6 +79,6 @@ class ExpensesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def expense_params
-      params.require(:expense).permit(:name, :description, :amount)
+      params.require(:expense).permit(:name, :description, :amount, :purchaser_id)
     end
 end

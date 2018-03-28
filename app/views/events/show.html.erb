@@ -38,7 +38,7 @@
 <hr>
 <% if @expenses.length > 0 %>
   <% @expenses.each do |expense| %>
-    <%= link_to "#{expense.name}", event_person_path(@event, expense)%><br/>
+    <%= link_to "#{expense.name}", event_expense_path(@event, expense)%><br/>
   <% end %>
 <% else %>
   <p>No expenses</p>

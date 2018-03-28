@@ -15,5 +15,10 @@
   <%= @expense.amount %>
 </p>
 
-<%= link_to 'Edit', edit_expense_path(@expense) %> |
-<%= link_to 'Back', expenses_path %>
+<p>
+  <strong>Purchaser:</strong>
+  <%= @purchaser.name %>
+</p>
+
+<%= link_to 'Edit', edit_event_expense_path(@event, @expense) %> |
+<%= link_to 'Back', event_path(@event) %>

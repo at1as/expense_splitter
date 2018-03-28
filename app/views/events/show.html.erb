@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<!-- Event Details -->
+<h3> Details </h3>
+<hr>
+<p>
+  <strong>Name:</strong>
+  <%= @event.name %>
+</p>
+
+<p>
+  <strong>Start date:</strong>
+  <%= @event.start_date %>
+</p>
+
+<p>
+  <strong>End date:</strong>
+  <%= @event.end_date %>
+</p>
+
+<!-- Event Participants -->
+<h3> Participants </h3>
+<hr>
+<% if @people.length > 0 %>
+  <% @people.each do |person| %>
+    <%= link_to "#{person.name}", event_person_path(@event, person)%><br/>
+  <% end %>
+<% else %>
+  <p>No Participants</p>
+<% end %>
+
+<br/>
+<%= link_to 'Add Participant', new_event_person_path(@event) %>
+
+
+<!-- Event Expenses -->
+<h3> Expenses </h3>
+<hr>
+<% if @expenses.length > 0 %>
+  <% @expenses.each do |expense| %>
+    <%= link_to "#{expense.name}", event_person_path(@event, expense)%><br/>
+  <% end %>
+<% else %>
+  <p>No expenses</p>
+<% end %>
+
+<br/>
+<%= link_to 'Add Expense', new_event_expense_path(@event) %>
+
+
+<br/>
+<br/>
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<%= link_to 'Back', events_path %>

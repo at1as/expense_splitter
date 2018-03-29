@@ -47,6 +47,23 @@
 <br/>
 <%= link_to 'Add Expense', new_event_expense_path(@event) %>
 
+<!-- Event User Balances -->
+<h3> User Balances </h3>
+<hr>
+<% @balances.each do |person, balance| %>
+  <%= "#{person.name} => #{number_to_currency(balance)}" %><br/>
+<% end %>
+
+
+<!-- Current Payments -->
+<h3>Most Efficeint Required Payments</h3>
+<hr>
+<% @payments.each do |payee, recipients| %>
+  <% recipients.each do |recipient| %>
+    <p><%= "#{payee.name} (#{payee.email}) owes #{recipient.receiver.name} (#{recipient.receiver.email}) #{number_to_currency(recipient.amount)}" %></p>
+  <% end %>
+<% end %>
+
 
 <br/>
 <br/>

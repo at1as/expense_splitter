@@ -13,27 +13,26 @@
 
   <div class="field">
     <%= form.label :name %>
-    <%= form.text_field :name, id: :expense_name %>
+    <%= form.text_field :name, id: :expense_name, :required => true %>
   </div>
 
   <div class="field">
-    <%= form.label :description %>
+    <%= form.label :description, "More Details" %>
     <%= form.text_area :description, id: :expense_description %>
   </div>
 
   <div class="field">
-    <%= form.label :amount %>
-    <%= form.text_field :amount, id: :expense_amount %>
+    <%= form.label :amount, "How Much?" %>
+    $ <%= form.number_field :amount, id: :expense_amount, :step => 0.01  %>
   </div>
 
   <div class="field">
-    <%= form.label :purchaser %>
+    <%= form.label :purchaser, "Who Paid?" %>
     <%= form.select :purchaser_id, options_for_select(@people.map { |person| [person.name, person.id] }, @purchaser), id: :purchaser_id %>
   </div>
 
-  <!--< % = form.collection_check_boxes(:people, @people.all, :id, :name, :include_hidden => false) % > -->
+  <%= form.label :person_ids, "Who splitting the cost?" %>
   <%= form.collection_check_boxes(:person_ids, @people.all, :id, :name, :include_hidden => false) %>
-
 
   <div class="actions">
     <%= form.submit %>

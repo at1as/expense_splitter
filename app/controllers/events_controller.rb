@@ -12,6 +12,8 @@ class EventsController < ApplicationController
   def show
     @people   = @event.people
     @expenses = @event.expenses
+    @balances = calculate_balances
+    @payments = calculate_payments
   end
 
   # GET /events/new
@@ -72,5 +74,56 @@ class EventsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
       params.require(:event).permit(:name, :start_date, :end_date)
+    end
+
+    # TODO: Everything below here does not belong in the Controller
+
+    def calculate_payments
+      creditors = @balances.select { |_, cost| cost > 0 }.sort_by { |_, cost|  cost }.map { |person, cost| Event.transaction.new(cost, person) }
+      debitors  = @balances.select { |_, cost| cost < 0 }.sort_by { |_, cost| -cost }.map { |person, cost| Event.transaction.new(cost, person) }
+
+      equalize_payments(creditors, debitors)
+    end
+
+    def equalize_payments(creditors, debtors)
+      equalization_transactions = Hash.new { |h, k| h[k] = [] }
+
+      loop do
+        break if creditors.length == 0 || debtors.length == 0
+      
+        max_owed  = creditors.pop
+        min_payer = debtors.pop
+
+        delta = max_owed.amount + min_payer.amount
+        
+        case
+          when delta.zero? 
+            equalization_transactions[min_payer.receiver] << max_owed
+          
+          when delta.positive?
+            equalization_transactions[min_payer.receiver] << Event.transaction.new(min_payer.amount, max_owed.receiver)
+            creditors << Event.transaction.new(delta, max_owed.receiver)
+          
+          when delta.negative?
+            equalization_transactions[min_payer.receiver] << Event.transaction.new(max_owed.amount, max_owed.receiver)
+            debtors << Event.transaction.new(delta, min_payer.receiver)
+        end
+      end
+
+      equalization_transactions 
+    end
+
+    def calculate_balances
+      user_balance = Hash.new(0)
+      
+      @event.expenses.each do |expense|
+        user_balance[Person.find(expense.purchaser_id)] += expense.amount
+        
+        expense.people.each do |participant|
+          user_balance[participant] -= expense.amount / expense.people.length.to_f
+        end
+      end
+
+      user_balance
     end
 end

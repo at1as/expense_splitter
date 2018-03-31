@@ -1,35 +1,40 @@
-<p id="notice"><%= notice %></p>
+<div class="container col-md-6 offset-md-3 card" style="padding:0px">
+  <div class="card-header">
+    <h3><%= @expense.name %></h3>
+  </div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @expense.name %>
-</p>
+  <div class="card-body">
+    <p id="notice"><%= notice %></p>
+  
+    <p>
+      <strong>Description:</strong>
+      <%= @expense.description %>
+    </p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @expense.description %>
-</p>
+    <p>
+      <strong>Amount:</strong>
+      <%= @expense.amount %>
+    </p>
 
-<p>
-  <strong>Amount:</strong>
-  <%= @expense.amount %>
-</p>
+    <p>
+      <strong>Purchaser:</strong>
+      <%= @purchaser.name %>
+    </p>
 
-<p>
-  <strong>Purchaser:</strong>
-  <%= @purchaser.name %>
-</p>
+    <p>
+    <strong>Expenses Split Amongst:</strong>
+      <% if @expense.people.length > 0 %>
+        <% @expense.people.each do |participant| %>
+          <br/>- <%= participant.name %>
+        <% end %>
+      <% else %>
+        No participants have been added to share the expense
+      <% end %>
+    </p>
+  </div>
 
-<p>
-<strong>Expenses Split Amongst:</strong>
-  <% if @expense.people.length > 0 %>
-    <% @expense.people.each do |participant| %>
-      <br/>- <%= participant.name %>
-    <% end %>
-  <% else %>
-    No participants have been added to share the expense
-  <% end %>
-</p>
-
-<%= link_to 'Edit', edit_event_expense_path(@event, @expense) %> |
-<%= link_to 'Back', event_path(@event) %>
+  <div class="card-footer">
+    <%= link_to 'Edit', edit_event_expense_path(@event, @expense) %> |
+    <%= link_to 'Back', event_path(@event) %>
+  </div>
+</div>

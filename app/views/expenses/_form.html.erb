@@ -11,30 +11,35 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :name %>
-    <%= form.text_field :name, id: :expense_name, :required => true %>
+    <%= form.text_field :name, id: :expense_name, :required => true, :class => 'form-control' %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :description, "More Details" %>
-    <%= form.text_area :description, id: :expense_description %>
+    <%= form.text_area :description, id: :expense_description, :class => 'form-control' %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :amount, "How Much?" %>
-    $ <%= form.number_field :amount, id: :expense_amount, :step => 0.01  %>
+    $ <%= form.number_field :amount, id: :expense_amount, :step => 0.01, :class => 'form-control', :placeholder => "$" %>
   </div>
 
-  <div class="field">
+  <div class="form-group">
     <%= form.label :purchaser, "Who Paid?" %>
-    <%= form.select :purchaser_id, options_for_select(@people.map { |person| [person.name, person.id] }, @purchaser), id: :purchaser_id %>
+    <%= form.select :purchaser_id, options_for_select(@people.map { |person| [person.name, person.id] }, @purchaser), id: :purchaser_id, class: 'form-control' %>
   </div>
 
   <%= form.label :person_ids, "Who splitting the cost?" %>
-  <%= form.collection_check_boxes(:person_ids, @people.all, :id, :name, :include_hidden => false) %>
+  <%= form.collection_check_boxes(:person_ids, @people.all, :id, :name, :include_hidden => false, item_wrapper_class: "form-control") do |cb| %>
+    <div class="form-group" style="margin:0px; margin-left:10px">
+      <%= cb.check_box %>
+      <%= cb.label %>
+    </div>
+  <% end %>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit :create, class: "btn btn-primary" %>
   </div>
 <% end %>

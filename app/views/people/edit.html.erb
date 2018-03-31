@@ -1,6 +1,15 @@
-<h1>Editing Person</h1>
+<div class="container col-md-6 offset-md-3 card" style="padding:0px">
+  
+  <div class="card-header">
+    <h1>Editing Participant Details</h1>
+  </div>
 
-<%= render 'form', person: @person %>
+  <div class="card-body">
+    <%= render 'form', person: @person %>
+  </div>
 
-<%= link_to 'Show', event_person_path(@event, @person) %> |
-<%= link_to 'Back', event_path(@event) %>
+  <div class="card-footer">
+    <%= link_to 'Show', event_person_path(@event, @person) %> |
+    <%= link_to 'Back', event_path(@event) %>
+  </div>
+</div>

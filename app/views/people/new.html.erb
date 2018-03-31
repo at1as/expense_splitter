@@ -1,5 +1,14 @@
-<h1>New Person</h1>
+<div class="container col-md-6 offset-md-3 card" style="padding:0px">
+  
+  <div class="card-header">
+    <h1>Add A New Participant</h1>
+  </div>
 
-<%= render 'form', person: @person %>
+  <div class="card-body">
+    <%= render 'form', person: @person %>
+  </div>
 
-<%= link_to 'Back', event_path(@event) %>
+  <div class="card-footer">
+    <%= link_to 'Back', event_path(@event) %>
+  </div>
+</div>

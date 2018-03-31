@@ -1,71 +1,89 @@
-<p id="notice"><%= notice %></p>
+<div class="container col-md-6 offset-md-3 card" style="padding:0px">
+  <div class="card-header">
+    <h1><%= @event.name %></h1>
+  </div>
 
-<!-- Event Details -->
-<h3> Details </h3>
-<hr>
-<p>
-  <strong>Name:</strong>
-  <%= @event.name %>
-</p>
+  <div class="card-body">
+    <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Start date:</strong>
-  <%= @event.start_date %>
-</p>
+    <!-- Event Details -->
+    <div>
+      <h3> Details </h3>
+      <hr>
 
-<p>
-  <strong>End date:</strong>
-  <%= @event.end_date %>
-</p>
+      <div class="form-group">
+        <strong>Scheduled start date:</strong>
+        <%= @event.start_date %>
+      </div>
 
-<!-- Event Participants -->
-<h3> Participants </h3>
-<hr>
-<% if @people.length > 0 %>
-  <% @people.each do |person| %>
-    <%= link_to "#{person.name}", event_person_path(@event, person)%><br/>
-  <% end %>
-<% else %>
-  <p>No Participants</p>
-<% end %>
+      <div class="form-group">
+        <strong>Completion Date:</strong>
+        <%= @event.end_date %>
+      </div>
+    </div>
+    <hr>
 
-<br/>
-<%= link_to 'Add Participant', new_event_person_path(@event) %>
+    <!-- Event Participants -->
+    <div>
+      <h3> Participants </h3>
+      <hr>
+      <div>
+        <% if @people.length > 0 %>
+          <% @people.each do |person| %>
+            <%= link_to "#{person.name}", event_person_path(@event, person)%><br/>
+          <% end %>
+        <% else %>
+          <p>No Participants</p>
+        <% end %>
+      </div>
 
+      <br/>
+      <%= link_to 'Add Participant', new_event_person_path(@event) %>
+    </div>
+    <hr>
 
-<!-- Event Expenses -->
-<h3> Expenses </h3>
-<hr>
-<% if @expenses.length > 0 %>
-  <% @expenses.each do |expense| %>
-    <%= link_to "#{expense.name}", event_expense_path(@event, expense)%><br/>
-  <% end %>
-<% else %>
-  <p>No expenses</p>
-<% end %>
+    <!-- Event Expenses -->
+    <div>
+      <h3> Expenses </h3>
+      <hr>
+      <% if @expenses.length > 0 %>
+        <% @expenses.each do |expense| %>
+          <%= link_to "#{expense.name}", event_expense_path(@event, expense)%><br/>
+        <% end %>
+      <% else %>
+        <p>No expenses</p>
+      <% end %>
 
-<br/>
-<%= link_to 'Add Expense', new_event_expense_path(@event) %>
+      <br/>
+      <%= link_to 'Add Expense', new_event_expense_path(@event) %>
+    </div>
+    <hr>
 
-<!-- Event User Balances -->
-<h3> User Balances </h3>
-<hr>
-<% @balances.each do |person, balance| %>
-  <%= "#{person.name} => #{number_to_currency(balance)}" %><br/>
-<% end %>
+    <!-- Event User Balances -->
+    <div>
+      <h3> User Balances </h3>
+      <hr>
+      <% @balances.each do |person, balance| %>
+        <%= "#{person.name} => #{number_to_currency(balance)}" %><br/>
+      <% end %>
+    </div>
+    <hr>
 
+    <!-- Current Payments -->
+    <div>
+      <h3>Most Efficeint Required Payments</h3>
+      <hr>
+      <% @payments.each do |payee, recipients| %>
+        <% recipients.each do |recipient| %>
+          <p><%= "#{payee.name} (#{payee.email}) owes #{recipient.receiver.name} (#{recipient.receiver.email}) #{number_to_currency(recipient.amount)}" %></p>
+        <% end %>
+      <% end %>
+    </div>
+  
+  </div> 
+  <div class="card-footer">
+    <%= link_to 'Edit', edit_event_path(@event) %> |
+    <%= link_to 'Back', events_path %>
+  </div>
 
-<!-- Current Payments -->
-<h3>Most Efficeint Required Payments</h3>
-<hr>
-<% @payments.each do |payee, recipients| %>
-  <% recipients.each do |recipient| %>
-    <p><%= "#{payee.name} (#{payee.email}) owes #{recipient.receiver.name} (#{recipient.receiver.email}) #{number_to_currency(recipient.amount)}" %></p>
-  <% end %>
-<% end %>
-
-
-<br/>
-<br/>
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+</div>

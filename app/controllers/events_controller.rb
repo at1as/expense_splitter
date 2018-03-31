@@ -29,10 +29,11 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = Event.new(event_params)
-
+    
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
+        puts "TEST"
+        format.html { redirect_to events_path, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
@@ -89,7 +90,7 @@ class EventsController < ApplicationController
       equalization_transactions = Hash.new { |h, k| h[k] = [] }
 
       loop do
-        break if creditors.length == 0 || debtors.length == 0
+        break if creditors.length == 0 && debtors.length == 0
       
         max_owed  = creditors.pop
         min_payer = debtors.pop

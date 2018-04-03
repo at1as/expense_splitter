@@ -35,6 +35,7 @@
 
   <div class="card-footer">
     <%= link_to 'Edit', edit_event_expense_path(@event, @expense) %> |
-    <%= link_to 'Back', event_path(@event) %>
+    <%= link_to 'Back', event_path(@event) %> |
+    <%= link_to 'Destroy', event_expense_path(@event, @expense), method: :delete, data: { confirm: 'Are you sure?' } %>
   </div>
 </div>

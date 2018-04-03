@@ -7,7 +7,7 @@
     <p id="notice"><%= notice %></p>
 
     <!-- Event Details -->
-    <div>
+    <div style="margin-bottom:40px;">
       <h3> Details </h3>
       <hr>
 
@@ -21,13 +21,12 @@
         <%= @event.end_date %>
       </div>
     </div>
-    <hr>
 
     <!-- Event Participants -->
-    <div>
+    <div style="margin-bottom:40px">
       <h3> Participants </h3>
       <hr>
-      <div>
+      <div style="margin-left:10px">
         <% if @people.length > 0 %>
           <% @people.each do |person| %>
             <%= link_to "#{person.name}", event_person_path(@event, person)%><br/>
@@ -40,44 +39,65 @@
       <br/>
       <%= link_to 'Add Participant', new_event_person_path(@event) %>
     </div>
-    <hr>
 
     <!-- Event Expenses -->
-    <div>
+    <div style="margin-bottom:40px;">
       <h3> Expenses </h3>
       <hr>
-      <% if @expenses.length > 0 %>
-        <% @expenses.each do |expense| %>
-          <%= link_to "#{expense.name}", event_expense_path(@event, expense)%><br/>
+      <div style="margin-left:10px">
+        <% if @expenses.length > 0 %>
+          <% @expenses.each do |expense| %>
+            <%= link_to "#{expense.name}", event_expense_path(@event, expense)%><br/>
+          <% end %>
+        <% else %>
+          <p>No expenses</p>
         <% end %>
-      <% else %>
-        <p>No expenses</p>
-      <% end %>
+      </div>
 
       <br/>
       <%= link_to 'Add Expense', new_event_expense_path(@event) %>
     </div>
-    <hr>
 
     <!-- Event User Balances -->
-    <div>
+    <div style="margin-bottom:40px">
       <h3> User Balances </h3>
       <hr>
-      <% @balances.each do |person, balance| %>
-        <%= "#{person.name} => #{number_to_currency(balance)}" %><br/>
-      <% end %>
+      <div style="margin-left:10px">
+        <table class="table table-bordered table-striped table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <td>Participant</td>
+              <td>Net Balance</td>
+            </tr>
+          </thead>
+          <tbody>
+          <% @balances.each do |person, balance| %>
+            <tr>
+              <td><%= "#{person.name}" %></td>
+              <% if balance >= 0 %>
+                <td style="color:green"><%= "#{number_to_currency(balance)}" %></td>
+              <% else %>
+                <td style="color:red"><%= "#{number_to_currency(balance)}" %></td>
+              <% end %>
+            </tr>
+          <% end %>
+          <tbody>
+        </table>
+      </div>
     </div>
-    <hr>
 
     <!-- Current Payments -->
     <div>
       <h3>Most Efficeint Required Payments</h3>
       <hr>
-      <% @payments.each do |payee, recipients| %>
-        <% recipients.each do |recipient| %>
-          <p><%= "#{payee.name} (#{payee.email}) owes #{recipient.receiver.name} (#{recipient.receiver.email}) #{number_to_currency(recipient.amount)}" %></p>
+      <div style="margin-left:10px">
+        <% @payments.each do |payee, recipients| %>
+          <% recipients.each do |recipient| %>
+            <p>
+            <b><%= "#{payee.name}" %></b> owes <b><%= "#{recipient.receiver.name}" %></b> <%= "#{number_to_currency(recipient.amount.abs)}" %></p>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
     </div>
   
   </div> 

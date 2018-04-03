@@ -29,13 +29,17 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = Event.new(event_params)
-    
+    puts event_params 
     respond_to do |format|
-      if @event.save
+      puts "hello"
+      if @event.save!
         puts "TEST"
         format.html { redirect_to events_path, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
+        puts "NO DICE"
+        puts @event.errors.full_messages
+        puts @event.errors.full_messages.length
         format.html { render :new }
         format.json { render json: @event.errors, status: :unprocessable_entity }
       end
@@ -80,8 +84,8 @@ class EventsController < ApplicationController
     # TODO: Everything below here does not belong in the Controller
 
     def calculate_payments
-      creditors = @balances.select { |_, cost| cost > 0 }.sort_by { |_, cost|  cost }.map { |person, cost| Event.transaction.new(cost, person) }
-      debitors  = @balances.select { |_, cost| cost < 0 }.sort_by { |_, cost| -cost }.map { |person, cost| Event.transaction.new(cost, person) }
+      creditors = @balances.select { |_, cost| cost > 0 }.sort_by { |_, cost|  cost }.map { |person, cost| Event.monetary_transaction.new(cost, person) }
+      debitors  = @balances.select { |_, cost| cost < 0 }.sort_by { |_, cost| -cost }.map { |person, cost| Event.monetary_transaction.new(cost, person) }
 
       equalize_payments(creditors, debitors)
     end
@@ -90,7 +94,7 @@ class EventsController < ApplicationController
       equalization_transactions = Hash.new { |h, k| h[k] = [] }
 
       loop do
-        break if creditors.length == 0 && debtors.length == 0
+        break if creditors.length == 0 || debtors.length == 0
       
         max_owed  = creditors.pop
         min_payer = debtors.pop
@@ -102,12 +106,12 @@ class EventsController < ApplicationController
             equalization_transactions[min_payer.receiver] << max_owed
           
           when delta.positive?
-            equalization_transactions[min_payer.receiver] << Event.transaction.new(min_payer.amount, max_owed.receiver)
-            creditors << Event.transaction.new(delta, max_owed.receiver)
+            equalization_transactions[min_payer.receiver] << Event.monetary_transaction.new(min_payer.amount, max_owed.receiver)
+            creditors << Event.monetary_transaction.new(delta, max_owed.receiver)
           
           when delta.negative?
-            equalization_transactions[min_payer.receiver] << Event.transaction.new(max_owed.amount, max_owed.receiver)
-            debtors << Event.transaction.new(delta, min_payer.receiver)
+            equalization_transactions[min_payer.receiver] << Event.monetary_transaction.new(max_owed.amount, max_owed.receiver)
+            debtors << Event.monetary_transaction.new(delta, min_payer.receiver)
         end
       end
 

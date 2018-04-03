@@ -4,10 +4,12 @@ class Event < ApplicationRecord
 
   validates_presence_of :name, :start_date, :end_date
 
-  def self.transaction
-    Struct.new(
-      :amount,
-      :receiver
-    )
+  class << self
+    def monetary_transaction
+      Struct.new(
+        :amount,
+        :receiver
+      )
+    end
   end
 end

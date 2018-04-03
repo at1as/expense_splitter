@@ -1,24 +1,12 @@
-# README
+# Expense Splitter
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Expense Splitter is a simple app to split expenses among friends. Expenses are split among participants and the least number of required transactions between participants are displayed (using a simplified version of the bin packing algorithm)
 
-Things you may want to cover:
+# Screenshots
 
-* Ruby version
+<img src="https://github.com/at1as/at1as.github.io/raw/master/github_repo_assets/expense_splitter_1.png" width="700px"/>
+<img src="https://github.com/at1as/at1as.github.io/raw/master/github_repo_assets/expense_splitter_2.png" width="700px"/>
 
-* System dependencies
+# Notes
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Built on Ruby 2.5.0 with Rails 5.1
